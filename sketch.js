@@ -1,4 +1,4 @@
-let start_img, reset_img, joya_img, joya_sound
+let start_img, reset_img, joya_img, joya_sound, offsetX = 0, offsetY = 0;
 let count = 0, is_hitting = false;
 const count_max = 108;
 
@@ -26,8 +26,17 @@ function setup() {
 }
 
 function draw() {
-  background(255);
-  image(joya_img, width / 2, height / 2);
+  background(255,64);
+
+
+  push();
+  if (is_hitting) {
+    offsetX = random(- width / 64, width / 64);
+    offsetY = random(- width / 64, width / 64);
+    translate(offsetX, offsetY);
+  }
+  image(joya_img, width / 2, height / 2);  
+  pop();
 
   if (is_hitting) {
     joyaHit();
@@ -42,7 +51,7 @@ function draw() {
     if (count == 0) {
       image(start_img, width / 2, height / 2);
     }
-    else{
+    else {
       image(reset_img, width / 2, height / 2);
     }
   }
@@ -52,6 +61,7 @@ function mouseClicked() {
   if (!is_hitting) {
     if (count == 0) {
       is_hitting = true;
+      clear();
     }
     else if (count >= 108) {
       count = 0;
